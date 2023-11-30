@@ -51,3 +51,5 @@ def export_starship_to_csv(list_of_elements_to_be_exported: list[dict], exported
             starship_dict = starship_instance.model_dump()
             writer.writerow(starship_dict)
     logging.info("The csv file has been exported")
+
+
