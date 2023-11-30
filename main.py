@@ -1,34 +1,36 @@
 import logging
-from utils import get_list_all_elements, export_person_to_csv, export_planet_to_csv, export_starship_to_csv
-
+from utils import get_list_all_elements, export_generic_model_to_csv
+from models.person import PersonModel
+from models.planet import PlanetModel
+from models.starship import StarShipModel
 
 if __name__ == "__main__":
-    try:
-        list_of_element = get_list_all_elements(resource="/people/")
-        export_person_to_csv(
-            list_of_elements_to_be_exported=list_of_element,
-            exported_file_name="personagens.csv"
-        )
-        logging.info(f"The data of resource '/people/' has been colected and the file 'personagens.csv' has been exported!")
-    except Exception as e:
-        logging.error(f"An error: {e}")
-    
-    try:
-        list_of_element = get_list_all_elements(resource="/planets/")
-        export_planet_to_csv(
-            list_of_elements_to_be_exported=list_of_element,
-            exported_file_name="planetas.csv"
-        )
-        logging.info(f"The data of resource '/planets/' has been colected and the file 'planetas.csv' has been exported!")
-    except Exception as e:
-        logging.error(f"An error: {e}")
-    
-    try:
-        list_of_element = get_list_all_elements(resource="/starships/")
-        export_starship_to_csv(
-            list_of_elements_to_be_exported=list_of_element,
-            exported_file_name="starships.csv"
-        )
-        logging.info(f"The data of resource '/starships/' has been colected and the file 'starships.csv' has been exported!")
-    except Exception as e:
-        logging.error(f"An error: {e}")
+    list_dict_resource_filename = [
+        {
+            "resource": "/people/",
+            "model_class": PersonModel,
+            "filename": "personagens.csv"
+        },
+        {
+            "resource": "/planets/",
+            "model_class": PlanetModel,
+            "filename": "planetas.csv"
+        },
+        {
+            "resource": "/starships/",
+            "model_class": StarShipModel,
+            "filename": "starships.csv"
+        }
+    ]
+
+    for dicio in list_dict_resource_filename:
+        try:
+            list_of_element = get_list_all_elements(dicio["resource"])
+            export_generic_model_to_csv(
+                model_class=dicio["model_class"],
+                list_of_elements_to_be_exported=list_of_element,
+                exported_file_name=dicio["filename"]
+            )
+            logging.info(f"The data of resource {dicio['resource']} has been colected and the file {dicio['filename']} has been exported!")
+        except Exception as e:
+            logging.error(f"An error: {e}")
