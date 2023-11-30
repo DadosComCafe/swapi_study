@@ -1,7 +1,9 @@
 import requests
 import logging
 import csv
-
+from models.person import PersonModel
+from models.planet import PlanetModel
+from models.starship import StarShipModel
 
 def get_list_all_elements(resource: str) -> list[dict]:
     base_url = "https://swapi.dev/api"
@@ -19,11 +21,33 @@ def get_list_all_elements(resource: str) -> list[dict]:
     return list_of_elements
 
 
-def export_to_csv(list_of_elements_to_be_exported: list[dict], exported_file_name: str) -> str:
-    myfile = open(exported_file_name, "w")
-    writer = csv.writer(myfile)
-    writer.writerow((list_of_elements_to_be_exported[0].keys()))
-    for dict_element in list_of_elements_to_be_exported:
-        writer.writerow(dict_element.values())
-    myfile.close()
-    return "The csv file has been exported"
+def export_person_to_csv(list_of_elements_to_be_exported: list[dict], exported_file_name: str) -> str:
+    with open(exported_file_name, "w", newline='') as myfile:
+        writer = csv.DictWriter(myfile, fieldnames=PersonModel.model_fields.keys())
+        writer.writeheader()
+        for dict_element in list_of_elements_to_be_exported:
+            person_instance = PersonModel(**dict_element)
+            person_dict = person_instance.model_dump()
+            writer.writerow(person_dict)
+    logging.info("The csv file has been exported")
+
+
+def export_planet_to_csv(list_of_elements_to_be_exported: list[dict], exported_file_name: str) -> str:
+    with open(exported_file_name, "w", newline='') as myfile:
+        writer = csv.DictWriter(myfile, fieldnames=PlanetModel.model_fields.keys())
+        writer.writeheader()
+        for dict_element in list_of_elements_to_be_exported:
+            planet_instance = PlanetModel(**dict_element)
+            planetc_dict = planet_instance.model_dump()
+            writer.writerow(planetc_dict)
+    logging.info("The csv file has been exported")
+
+def export_starship_to_csv(list_of_elements_to_be_exported: list[dict], exported_file_name: str) -> str:
+    with open(exported_file_name, "w", newline='') as myfile:
+        writer = csv.DictWriter(myfile, fieldnames=StarShipModel.model_fields.keys())
+        writer.writeheader()
+        for dict_element in list_of_elements_to_be_exported:
+            starship_instance = StarShipModel(**dict_element)
+            starship_dict = starship_instance.model_dump()
+            writer.writerow(starship_dict)
+    logging.info("The csv file has been exported")
