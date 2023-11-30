@@ -1,6 +1,7 @@
 import requests
 import logging
 import csv
+from pydantic import BaseModel
 from models.person import PersonModel
 from models.planet import PlanetModel
 from models.starship import StarShipModel
@@ -53,3 +54,12 @@ def export_starship_to_csv(list_of_elements_to_be_exported: list[dict], exported
     logging.info("The csv file has been exported")
 
 
+def export_generic_model_to_csv(model_class: BaseModel, list_of_elements_to_be_exported: list[dict], exported_file_name: str) -> str:
+    with open(exported_file_name, "w", newline='') as myfile:
+        writer = csv.DictWriter(myfile, fieldnames=model_class.model_fields.keys())
+        writer.writeheader()
+        for dict_element in list_of_elements_to_be_exported:
+            instance = model_class(**dict_element)
+            instance_dict = instance.model_dump()
+            writer.writerow(instance_dict)
+    logging.info("The CSV file has been exported")
