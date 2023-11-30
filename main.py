@@ -1,26 +1,33 @@
 import logging
-from utils import get_list_all_elements, export_to_csv
-
+from utils import get_list_all_elements, export_generic_model_to_csv
+from models.person import PersonModel
+from models.planet import PlanetModel
+from models.starship import StarShipModel
 
 if __name__ == "__main__":
-    resource_and_filename = [
-    {
-        "resource": "/people/",
-        "filename": "personagens.csv"
-    },
-    {
-        "resource": "/planets/",
-        "filename": "planetas.csv"
-    },
-    {
-        "resource": "/starships/",
-        "filename": "starships.csv"
-    }
+    list_dict_resource_filename = [
+        {
+            "resource": "/people/",
+            "model_class": PersonModel,
+            "filename": "personagens.csv"
+        },
+        {
+            "resource": "/planets/",
+            "model_class": PlanetModel,
+            "filename": "planetas.csv"
+        },
+        {
+            "resource": "/starships/",
+            "model_class": StarShipModel,
+            "filename": "starships.csv"
+        }
     ]
-    for dicio in resource_and_filename:
+
+    for dicio in list_dict_resource_filename:
         try:
-            list_of_element = get_list_all_elements(resource=dicio["resource"])
-            export_to_csv(
+            list_of_element = get_list_all_elements(dicio["resource"])
+            export_generic_model_to_csv(
+                model_class=dicio["model_class"],
                 list_of_elements_to_be_exported=list_of_element,
                 exported_file_name=dicio["filename"]
             )
