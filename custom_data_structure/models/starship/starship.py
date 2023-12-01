@@ -1,9 +1,10 @@
 from typing import Optional
 from pydantic import BaseModel
-from custom_data_structure.models.person import PersonModel
+from models.abstractmodel import AbstractModel
 
 
-class StarShipModel(BaseModel):
+class StarShipModel(AbstractModel):
+    id: int
     name: str
     model: Optional[str] = None
     manufacturer: Optional[str] = None
@@ -17,7 +18,6 @@ class StarShipModel(BaseModel):
     hyperdrive_rating: Optional[str] = None
     MGLT: Optional[str] = None
     starship_class: Optional[str] = None
-    pilots: Optional[PersonModel] = []
     films: Optional[list] = []
     created: Optional[str] = None
     edited: Optional[str] = None

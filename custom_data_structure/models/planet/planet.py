@@ -1,8 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel
+from models.abstractmodel import AbstractModel
 
 
-class PlanetModel(BaseModel):
+class PlanetModel(AbstractModel):
+    id: int
     name: str
     rotation_period: Optional[str] = None
     orbital_period: Optional[str] = None
@@ -14,6 +15,3 @@ class PlanetModel(BaseModel):
     population: Optional[str] = None
     residents: Optional[list] = []
     films: Optional[list] = []
-    created: Optional[str] = None
-    edited: Optional[str] = None
-    url: Optional[str] = None
