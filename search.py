@@ -1,4 +1,5 @@
 import pandas as pd
+import logging
 
 class StarWarsSearch:
     def __init__(self, field_name: str, csv_name: str) -> None:
@@ -20,7 +21,11 @@ class StarWarsSearch:
         Returns:
             int: The number of unique values be found in the given field name. 
         """
-        return len(pd.unique(self.df[self.field_name]))
+        try:
+            return len(pd.unique(self.df[self.field_name]))
+        except Exception as e:
+            logging.error(f"An error: {e}")
+
 
 
     def count_target_with_more_than_two_elements(self) -> int:
@@ -32,7 +37,10 @@ class StarWarsSearch:
         Returns:
             int: The number of names has more than 2 elements in the field. 
         """
-        return len(self.df[self.df[self.field_name].map(len) > 2])
+        try:
+            return len(self.df[self.df[self.field_name].map(len) > 2])
+        except Exception as e:
+            logging.error(f"An error: {e}")
 
     def target_with_biggest_value(self) -> tuple:
         """Found the biggest value of the given `field_name` in the given csv.
@@ -43,7 +51,10 @@ class StarWarsSearch:
         self.df[self.field_name] = self.df[self.field_name].astype(int)
         indx_from_biggest = self.df[self.field_name].idxmax()
         element = self.df.loc[indx_from_biggest]
-        return element["name"],element[self.field_name]
+        try:
+            return element["name"],element[self.field_name]
+        except Exception as e:
+            logging.error(f"An error: {e}")
 
 
 if __name__ == "__main__":
