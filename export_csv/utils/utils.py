@@ -28,9 +28,13 @@ def get_list_all_elements(resource: str) -> list[dict]:
     return list_of_elements
 
 
-def export_generic_model_to_csv(model_class: BaseModel, list_of_elements_to_be_exported: list[dict], exported_file_name: str):
+def export_generic_model_to_csv(
+    model_class: BaseModel,
+    list_of_elements_to_be_exported: list[dict],
+    exported_file_name: str,
+):
     """Carries out export of containing values in the given list of elements, using the given Pydantic model
-    to ensure the output format.     
+    to ensure the output format.
 
     Args:
         model_class (BaseModel): A pydantic BaseModel of the given list_of_elements modules
@@ -38,7 +42,7 @@ def export_generic_model_to_csv(model_class: BaseModel, list_of_elements_to_be_e
         exported_file_name (str): The name of file that will be exported.
 
     """
-    with open(exported_file_name, "w", newline='') as myfile:
+    with open(exported_file_name, "w", newline="") as myfile:
         writer = csv.DictWriter(myfile, fieldnames=model_class.model_fields.keys())
         writer.writeheader()
         for dict_element in list_of_elements_to_be_exported:

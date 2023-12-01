@@ -9,18 +9,18 @@ if __name__ == "__main__":
         {
             "resource": "/people/",
             "model_class": PersonModel,
-            "filename": "personagens.csv"
+            "filename": "personagens.csv",
         },
         {
             "resource": "/planets/",
             "model_class": PlanetModel,
-            "filename": "planetas.csv"
+            "filename": "planetas.csv",
         },
         {
             "resource": "/starships/",
             "model_class": StarShipModel,
-            "filename": "starships.csv"
-        }
+            "filename": "starships.csv",
+        },
     ]
 
     for dicio in list_dict_resource_filename:
@@ -29,8 +29,10 @@ if __name__ == "__main__":
             export_generic_model_to_csv(
                 model_class=dicio["model_class"],
                 list_of_elements_to_be_exported=list_of_element,
-                exported_file_name=dicio["filename"]
+                exported_file_name=dicio["filename"],
             )
-            logging.info(f"The data of resource {dicio['resource']} has been colected and the file {dicio['filename']} has been exported!")
+            logging.info(
+                f"The data of resource {dicio['resource']} has been colected and the file {dicio['filename']} has been exported!"
+            )
         except Exception as e:
             logging.error(f"An error: {e}")
