@@ -4,6 +4,9 @@ from models.person import PersonModel
 from models.planet import PlanetModel
 from models.starship import StarShipModel
 
+logging.basicConfig(level=logging.DEBUG)
+
+
 if __name__ == "__main__":
     list_dict_resource_filename = [
         {

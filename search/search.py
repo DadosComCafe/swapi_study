@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 
+
 class StarWarsSearch:
     def __init__(self, field_name: str, csv_name: str) -> None:
         """The classe will be use to get some informations about the starwars csv's containing in this repository.
@@ -13,29 +14,29 @@ class StarWarsSearch:
         self.field_name = field_name
         self.csv_name = csv_name
         self.df = pd.read_csv(self.csv_name)
-        self.df = self.df[(self.df.name != "unknown") & (self.df[self.field_name] != "unknown")]
+        self.df = self.df[
+            (self.df.name != "unknown") & (self.df[self.field_name] != "unknown")
+        ]
 
     def count_distinct_values(self) -> int:
-        """Count the number of distinct values in the given csv and field_name. 
+        """Count the number of distinct values in the given csv and field_name.
 
         Returns:
-            int: The number of unique values be found in the given field name. 
+            int: The number of unique values be found in the given field name.
         """
         try:
             return len(pd.unique(self.df[self.field_name]))
         except Exception as e:
             logging.error(f"An error: {e}")
 
-
-
     def count_target_with_more_than_two_elements(self) -> int:
         """This method compares the value of the given field in the given csv file
-        and count the number of records that have more than 2 occurrence in the . 
-        Example: I would like to now how many names in the `personagens.csv` has more than 2 films. 
+        and count the number of records that have more than 2 occurrence in the .
+        Example: I would like to now how many names in the `personagens.csv` has more than 2 films.
         In this case I need to use csv_name=`personagens.csv` and  field_name=`films`.
 
         Returns:
-            int: The number of names has more than 2 elements in the field. 
+            int: The number of names has more than 2 elements in the field.
         """
         try:
             return len(self.df[self.df[self.field_name].map(len) > 2])
@@ -52,7 +53,7 @@ class StarWarsSearch:
         indx_from_biggest = self.df[self.field_name].idxmax()
         element = self.df.loc[indx_from_biggest]
         try:
-            return element["name"],element[self.field_name]
+            return element["name"], element[self.field_name]
         except Exception as e:
             logging.error(f"An error: {e}")
 
@@ -64,9 +65,13 @@ if __name__ == "__main__":
 
     # how many people with more than 2 starships?
     question2 = StarWarsSearch("starships", "personagens.csv")
-    print(f"There are {question2.count_target_with_more_than_two_elements()} people with more than 2 starships")
+    print(
+        f"There are {question2.count_target_with_more_than_two_elements()} people with more than 2 starships"
+    )
 
     # what is the planet with biggest population?
     question3 = StarWarsSearch("population", "planetas.csv")
     planet_name, population_value = question3.target_with_biggest_value()
-    print(f"The planet with the biggest {question3.field_name} is {planet_name} with {population_value}")
+    print(
+        f"The planet with the biggest {question3.field_name} is {planet_name} with {population_value}"
+    )
